@@ -50,7 +50,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
   end
   
   on_intent("Quiz") do
-	  session["counter"] ||= "not playing"
+	session["counter"] = "not playing"
 	if  session["last_context"] = "quiz"
 		slots = request.intent.slots
 		puts slots.to_s
