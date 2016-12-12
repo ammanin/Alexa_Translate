@@ -144,7 +144,6 @@ private
 def trans_met transtxt, langinput
   if LangList.exists?(:lang_name => langinput)
   translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
-  transtxt = transtxt.downcase.strip.to_s
   langinput = langinput.downcase.strip.to_s
   langcd = LangList.find_by lang_name: langinput 
   tranoutput = translator.translate(transtxt, :from => 'en', :to => langcd.lang_code)
