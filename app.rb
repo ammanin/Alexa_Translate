@@ -32,10 +32,10 @@ require_relative './models/lang_list'
 # enable sessions for this project
 enable :sessions
 
-client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
-#translation API
-#translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
 
+#translation API --- used inside each def function
+#translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+#client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
@@ -123,11 +123,10 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     trans_txt = (request.intent.slots["trans_txt"])
 	lang_input = (request.intent.slots["lang_input"])
-	
-	response.set_output_speech_text("#{trans_txt} in #{lang_input} is #{trans_met(trans_txt, lang_input)}")  
-    trans_output = "#{trans_txt} in #{lang_input} is #{trans_met(trans_txt, lang_input)}"
-	#response.set_simple_card("title", "content")
-	send_answer trans_output
+	trans_output = "#{trans_txt} in #{lang_input} is #{trans_met(trans_txt, lang_input)}"
+	response.set_output_speech_text(trans_output)  
+    #response.set_simple_card("title", "content")
+	send_answer(trans_output)
   end
 
 end
@@ -150,10 +149,12 @@ post '/' do
 
 
 end
-
+# Using this to test locally
 get '/' do
 	
-	" you get #{trans_met("where are you from", "french")}"
+	message = " you get #{trans_met("where are you from", "french")}"
+	send_answer(message)
+	message
 end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
@@ -187,6 +188,7 @@ def trans_met transtxt, langinput
   
 end
 def send_answer trans_answer
+	client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 	client.account.messages.create(
 	:from => ENV["TWILIO_NUMBER"],
 	:to => "+14129548714",
