@@ -142,8 +142,8 @@ private
 
 
 def trans_met transtxt, langinput
-  if LangList.exists?(:lang_name => langinput)
-  translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+ translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"]) 
+ #if LangList.exists?(:lang_name => langinput)
   langinput = langinput.downcase.strip.to_s
   langcd = LangList.find_by lang_name: langinput 
   tranoutput = translator.translate(transtxt, :from => 'en', :to => langcd.lang_code)
@@ -151,10 +151,10 @@ def trans_met transtxt, langinput
 	#update = TranList.create(lang: langinput, phrase: transtxt, tras: tranoutput)
 	#update.save
 	#end
-  "#{transtxt} in #{langinput} is \'#{tranoutput}\'"
-  else
-  "Sorry. That language is foreign to me. What do you expect? I am, but a simple bot."
-  end
+  "#{transtxt} in #{langinput} is #{tranoutput}"
+  #else
+  #"Sorry. That language is foreign to me. What do you expect? I am, but a simple bot."
+ # end
   
 end
 def send_answer trans_answer
