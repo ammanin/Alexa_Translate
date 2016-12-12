@@ -152,8 +152,8 @@ def trans_met transtxt, langinput
 		update.save
 	end
   "#{transtxt} in #{langinput} is #{tranoutput}"
-  #else
-  #"Sorry. That language is foreign to me. What do you expect? I am, but a simple bot."
+  else
+  "Sorry. That language is foreign to me. What do you expect? I am, but a simple bot."
  end
   
 end
