@@ -50,7 +50,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
   end
   
   on_intent("Quiz") do
-	session["counter"] = "not playing"
+=begin
+	session["counter"] ||= nil
 	if  session["last_context"] = "quiz"
 		slots = request.intent.slots
 		puts slots.to_s
@@ -62,11 +63,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
 		end
 		session["last_context"] = "not playing"
 	else
-		Session["last_context"] = "quiz"
+=end
+		#Session["last_context"] = "quiz"
 		question = TranList.sample
 		response.set_output_speech_text("what does #{question.tras} mean") 
 		session["answer"] = question.transtxt
-	end
+	#end
   end
 end
 
