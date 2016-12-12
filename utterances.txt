@@ -1,0 +1,8 @@
+Translate How do I say {translation} in {language}
+Translate Translate {translation} to {language}
+Translate What is {translation} in {language}
+AMAZON.HelpIntent help me 
+AMAZON.HelpIntent how do I translate
+AMAZON.HelpIntent help
+AMAZON.HelpIntent what can i ask you
+AMAZON.HelpIntent what can you do

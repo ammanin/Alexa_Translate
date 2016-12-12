@@ -1,0 +1,21 @@
+
+{
+  "intents": [
+    {
+      "intent": "Translate",
+      "slots": [
+        {
+          "name": "translation",
+          "type": "PHRASE"
+        },
+    {
+          "name": "language",
+          "type": "PHRASE"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    }
+  ]
+}
