@@ -12,6 +12,6 @@ test:
 
 production:
   adapter: postgresql
-  database: ENV['DATABASE_URL']
+  database: ENV['HEROKU_POSTGRESQL_COPPER_URL']
   pool: 5
   timeout: 5000
