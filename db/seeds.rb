@@ -1,4 +1,5 @@
 LangList.delete_all
+TranList.delete_all
 LangList.create!([{lang_name: "afrikaans", lang_code: "af"}])
 LangList.create!([{lang_name: "latin", lang_code: "bs-Latn"}])
 LangList.create!([{lang_name: "catalan", lang_code: "ca"}])
@@ -14,3 +15,5 @@ LangList.create!([{lang_name: "italian", lang_code: "it"}])
 LangList.create!([{lang_name: "portuguese", lang_code: "pt"}])
 LangList.create!([{lang_name: "spanish", lang_code: "es"}])
 LangList.create!([{lang_name: "welsch", lang_code: "cy"}])
+
+TranList.create!([{lang: "german", phrase: "where are you from", tras: "woher komme sie"}])

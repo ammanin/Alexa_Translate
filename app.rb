@@ -24,7 +24,7 @@ end
 # using the following syntax:
 # require_relative './models/<model_name>'
 require_relative './models/lang_list'
-
+require_relative './models/tran_list'
 # enable sessions for this project
 enable :sessions
 
@@ -149,7 +149,7 @@ def trans_met transtxt, langinput
   message = translator.translate(transtxt, :from => 'en', :to => langcd.lang_code)
   "#{transtxt} in #{langinput} is \'#{message}\'"
   else
-  "Sorry. I don\'t know that language. What do you expect. I\'m but a simple bot."
+  "Sorry. I do not know that language. What do you expect? I am, but a simple bot."
   end
 end
 def send_answer trans_answer

@@ -10,11 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161212120215) do
+ActiveRecord::Schema.define(version: 20161212155337) do
 
   create_table "lang_lists", force: :cascade do |t|
     t.string "lang_name"
     t.string "lang_code"
+  end
+
+  create_table "tran_lists", force: :cascade do |t|
+    t.string   "lang"
+    t.string   "phrase"
+    t.string   "tras"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
