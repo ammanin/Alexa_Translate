@@ -151,7 +151,7 @@ end
 
 get '/' do
 	
-	" you get #{trans_met("where are you from")}"
+	" you get #{trans_met("where are you from", "german")}"
 end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
@@ -181,7 +181,8 @@ def trans_met transtxt, langinput
   translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
   langinput = langinput.downcase.strip
   langinput = LangList.where(lang_name: "langinput").lang_code.to_s
-  translator.translate(transtxt, :from => 'en', :to => langinput)
+  #translator.translate(transtxt, :from => 'en', :to => langinput)
+  langinput
 end
 
 def multip int1, int2
