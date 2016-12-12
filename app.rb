@@ -148,15 +148,15 @@ def trans_met transtxt, langinput
   langinput = langinput.downcase.strip.to_s
   langcd = LangList.find_by lang_name: langinput 
   tranoutput = translator.translate(transtxt, :from => 'en', :to => langcd.lang_code)
-  if !TranList.exists?(:lang => langinput) & !TranList.exists?(:tras => tranoutput)
-	update = TranList.create(lang: langinput, phrase: transtxt, tras: tranoutput)
-	update.save
-  end
-  tranoutput = "#{transtxt} in #{langinput} is \'#{tranoutput}\'"
+	#if !TranList.exists?(:lang => langinput) & !TranList.exists?(:tras => tranoutput)
+	#update = TranList.create(lang: langinput, phrase: transtxt, tras: tranoutput)
+	#update.save
+	#end
+  "#{transtxt} in #{langinput} is \'#{tranoutput}\'"
   else
   "Sorry. That language is foreign to me. What do you expect? I am, but a simple bot."
   end
-  tranoutput
+  
 end
 def send_answer trans_answer
 	client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
