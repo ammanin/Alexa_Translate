@@ -180,7 +180,7 @@ private
 def trans_met transtxt, langinput
   translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
   langinput = langinput.downcase.strip
-  langinput = lang_list.where(lang_name: "langinput").lang_code
+  langinput = LangList.where(lang_name: "langinput").lang_code
   translator.translate(transtxt, :from => 'en', :to => langinput)
 end
 
