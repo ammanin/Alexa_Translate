@@ -125,7 +125,9 @@ class CustomHandler < AlexaSkillsRuby::Handler
 	lang_input = (request.intent.slots["lang_input"])
 	
 	response.set_output_speech_text("#{trans_txt} in #{lang_input} is #{trans_met(trans_txt, lang_input)}")  
-    #response.set_simple_card("title", "content")
+    trans_output = "#{trans_txt} in #{lang_input} is #{trans_met(trans_txt, lang_input)}"
+	#response.set_simple_card("title", "content")
+	send_answer trans_output
   end
 
 end
@@ -184,7 +186,13 @@ def trans_met transtxt, langinput
   translator.translate(transtxt, :from => 'en', :to => langinput.lang_code)
   
 end
-
+def send_answer trans_answer
+	client.account.messages.create(
+	:from => ENV["TWILIO_NUMBER"],
+	:to => "+14129548714",
+	:body => trans_answer
+	)
+end
 def multip int1, int2
 	int1 + int2
 end
