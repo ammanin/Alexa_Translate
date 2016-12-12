@@ -119,7 +119,7 @@ post '/' do
 
 # Using this to test locally
 get '/' do
-	message = trans_met("where are you from", "french")
+	message = trans_met("where are you from", "dgfdg")
 	send_answer(message)
 	message
 end
@@ -143,18 +143,18 @@ private
 
 def trans_met transtxt, langinput
  translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"]) 
- if LangList.exists?(:lang_name => langinput)
+# if LangList.exists?(:lang_name => langinput)
   langinput = langinput.downcase.strip.to_s
   langcd = LangList.find_by lang_name: langinput 
   tranoutput = translator.translate(transtxt, :from => 'en', :to => langcd.lang_code)
-	#if !TranList.exists?(:lang => langinput) & !TranList.exists?(:tras => tranoutput)
-	#update = TranList.create(lang: langinput, phrase: transtxt, tras: tranoutput)
-	#update.save
-	#end
+	if !TranList.exists?(:lang => langinput) & !TranList.exists?(:tras => tranoutput)
+		update = TranList.create(lang: langinput, phrase: transtxt, tras: tranoutput)
+		update.save
+	end
   "#{transtxt} in #{langinput} is #{tranoutput}"
-  else
+  #else
   #"Sorry. That language is foreign to me. What do you expect? I am, but a simple bot."
-  end
+  #end
   
 end
 def send_answer trans_answer
