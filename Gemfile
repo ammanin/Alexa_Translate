@@ -15,7 +15,6 @@ gem 'haml'
 gem 'iso8601'
 gem 'ruby_gem'
 gem 'bing_translator'
-gem 'httparty'
 # to avoid installing postgres use 
 # bundle install --without production
 

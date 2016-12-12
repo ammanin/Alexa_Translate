@@ -8,7 +8,7 @@ require 'haml'
 require 'iso8601'
 require 'ruby_gem'
 require 'bing_translator'
-require 'httparty'
+
 
 # ----------------------------------------------------------------------
 
@@ -19,15 +19,11 @@ configure :development do
   Dotenv.load
 end
 
-#set :database, "sqlite3:db/smsilate_database.db"
-#require_relative './models/user'
-require_relative './models/lang_list'
-
 # require any models 
 # you add to the folder
 # using the following syntax:
 # require_relative './models/<model_name>'
-
+require_relative './models/lang_list'
 
 # enable sessions for this project
 enable :sessions
@@ -38,35 +34,9 @@ enable :sessions
 #client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 
 # ----------------------------------------------------------------------
-#     ROUTES, END POINTS AND ACTIONS
-# ----------------------------------------------------------------------
-
-
-# ----------------------------------------------------------------------
-#     ERRORS
-# ----------------------------------------------------------------------
-
-
-
-get "/send_sms" do
-	client.account.messages.create(
-	:from => ENV["TWILIO_NUMBER"],
-	:to => "+14129548714",
-	:body => "Knock Knock!"
-	)
-	"Send Message"
-end
-
-
-# enable sessions for this project
-enable :sessions
-
-
-# ----------------------------------------------------------------------
 #     AlexaSkillsRuby Handler
 #     See https://github.com/DanElbert/alexa_skills_ruby
 # ----------------------------------------------------------------------
-
 
 class CustomHandler < AlexaSkillsRuby::Handler
 =begin
@@ -123,10 +93,9 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     trans_txt = (request.intent.slots["trans_txt"])
 	lang_input = (request.intent.slots["lang_input"])
-	trans_output = "#{trans_txt} in #{lang_input} is #{trans_met(trans_txt, lang_input)}"
-	response.set_output_speech_text(trans_output)  
+	response.set_output_speech_text(trans_met(trans_txt, lang_input))  
     #response.set_simple_card("title", "content")
-	send_answer(trans_output)
+	send_answer(trans_met(trans_txt, lang_input))
   end
 
 end
@@ -142,33 +111,25 @@ post '/' do
 
   begin
     handler.handle(request.body.read)
-  rescue AlexaSkillsRuby::InvalidApplicationId => e
-    logger.error e.to_s
-    403
-  end
+		rescue AlexaSkillsRuby::InvalidApplicationId => e
+		logger.error e.to_s
+		403
+		end
+	end 
 
-
-end
 # Using this to test locally
 get '/' do
-	
-	message = " you get #{trans_met("where are you from", "french")}"
+	message = trans_met("where are you from", "german")
 	send_answer(message)
 	message
 end
-
-# THE APPLICATION ID CAN BE FOUND IN THE 
-
-
-
 
 # ----------------------------------------------------------------------
 #     ERRORS
 # ----------------------------------------------------------------------
 
-
 error 401 do 
-  "Not allowed!!!"
+  "Who goes there?"
 end
 
 # ----------------------------------------------------------------------
@@ -181,11 +142,15 @@ private
 
 
 def trans_met transtxt, langinput
+  if LangList.exists?(:lang_name => langinput)
   translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
   langinput = langinput.downcase.strip.to_s
-  langinput = LangList.find_by lang_name: langinput 
-  translator.translate(transtxt, :from => 'en', :to => langinput.lang_code)
-  
+  langcd = LangList.find_by lang_name: langinput 
+  message = translator.translate(transtxt, :from => 'en', :to => langcd.lang_code)
+  "#{transtxt} in #{langinput} is \'#{message}\'"
+  else
+  "Sorry. I don\'t know that language. What do you expect. I\'m but a simple bot."
+  end
 end
 def send_answer trans_answer
 	client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
