@@ -28,7 +28,6 @@ require_relative './models/tran_list'
 # enable sessions for this project
 enable :sessions
 
-
 #translation API --- used inside each def function
 #translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
 #client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
@@ -39,55 +38,7 @@ enable :sessions
 # ----------------------------------------------------------------------
 
 class CustomHandler < AlexaSkillsRuby::Handler
-=begin
-  on_intent("GetCurrentStatus") do
-    #slots = request.intent.slots
-    
-    current_status = StatusUpdate.all.last.message
-    
-    response.set_output_speech_text("It looks like: #{current_status} ")
-    #response.set_simple_card("title", "content")
-    logger.info 'GetCurrentStatus processed'
-    
-  end
-  
-  on_intent("AMAZON.HelpIntent") do
-    #slots = request.intent.slots
-    response.set_output_speech_text("You can ask me to tell you the current out of office status by saying current status. You can update your stats by saying tell out of office i'll be right back, i've gone home, i'm in a meeting, i'm here or i'll be back in 10 minutes")
-    #response.set_simple_card("title", "content")
-    logger.info 'GetCurrentStatus processed'
-    
-  end
-  
-  on_intent("BeRightBack") do
-    response.set_output_speech_text("I've updated your status to be right back ")
-    #response.set_simple_card("title", "content")
-    logger.info 'BeRightBack processed'
-    update_status "brb"
-  end
-  
-  on_intent("GoneHome") do
-    response.set_output_speech_text("I've updated your status to Gone Home ")
-    #response.set_simple_card("title", "content")
-    logger.info 'GoneHome processed'
-    update_status "home"
-  end
-  
-  on_intent("InAMeeting") do
-    response.set_output_speech_text("I've updated your status to In a meeting ")
-    #response.set_simple_card("title", "content")
-    logger.info 'InAMeeting processed'
-    update_status "meeting"
-  end
-  
-  
-  on_intent("Here") do
-    response.set_output_speech_text("I've updated your status to Here ")
-    #response.set_simple_card("Out of Office App", "Status is now.")
-    logger.info 'Here processed'
-    update_status "here"
-  end
-=end
+
   on_intent("Translate") do
     slots = request.intent.slots
     puts slots.to_s
@@ -97,7 +48,25 @@ class CustomHandler < AlexaSkillsRuby::Handler
     #response.set_simple_card("title", "content")
 	send_answer(trans_met(trans_txt, lang_input))
   end
-
+  
+  on_intent("Quiz") do
+	if  session["last_context"] = "quiz"
+		slots = request.intent.slots
+		puts slots.to_s
+		ans = (request.intent.slots["answer_input"])
+		if session["answer"] = ans
+			response.set_output_speech_text("I'm impressed. You are smarter than you look")  
+		else
+			response.set_output_speech_text("Wrong, you really are slow")
+		end
+		session["last_context"] = "not playing"
+	else
+		Session["last_context"] = "quiz"
+		question = TranList.sample
+		response.set_output_speech_text("what does #{question.tras} mean") 
+		session["answer"] = question.transtxt
+	end
+  end
 end
 
 # ----------------------------------------------------------------------
@@ -147,13 +116,13 @@ def trans_met transtxt, langinput
 	translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"]) 
 	langcd = LangList.find_by lang_name: langinput 
 	tranoutput = translator.translate(transtxt, :from => 'en', :to => langcd.lang_code)
-	if !TranList.exists?(:lang => langinput) & !TranList.exists?(:tras => tranoutput)
+	if !TranList.exists?(:tras => tranoutput)
 		update = TranList.create(lang: langinput, phrase: transtxt, tras: tranoutput)
 		update.save
 	end
   "#{transtxt} in #{langinput} is #{tranoutput}"
   else
-  "Sorry. That language is foreign to me. What do you expect? I am, but a simple bot."
+  "Sorry. I do not know that language. What do you expect? I am, but a simple bot."
  end
   
 end

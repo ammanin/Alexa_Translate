@@ -1,6 +1,10 @@
-Translate How do I say {translation} in {language}
-Translate Translate {translation} to {language}
-Translate What is {translation} in {language}
+Translate How do I say {trans_txt} in {lang_input}
+Translate Translate {trans_txt} to {lang_input}
+Translate What is {trans_txt} in {lang_input}
+Quiz Quiz me
+Quiz Ask me something
+Quiz The answer is
+Quiz Is the answer 
 AMAZON.HelpIntent help me 
 AMAZON.HelpIntent how do I translate
 AMAZON.HelpIntent help

@@ -5,11 +5,20 @@
       "intent": "Translate",
       "slots": [
         {
-          "name": "translation",
+          "name": "trans_txt",
           "type": "PHRASE"
         },
     {
-          "name": "language",
+          "name": "lang_input",
+          "type": "PHRASE"
+        }
+      ]
+    },
+    {
+      "intent": "Quiz",
+	"slots": [
+        {
+          "name": "answer_input",
           "type": "PHRASE"
         }
       ]
