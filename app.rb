@@ -60,6 +60,7 @@ on_intent("Teacher") do
 	else
 	response.set_output_speech_text("Sorry! Can you repeat that more clearly, please")
 	end
+	response.set_output_speech_text("Sorry! Can you repeat that more clearly, please")
 end
 end
 # ----------------------------------------------------------------------
