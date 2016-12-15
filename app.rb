@@ -53,7 +53,7 @@ on_intent("Teacher") do
 	slots = request.intent.slots
     puts slots.to_s
     question_txt = (request.intent.slots["question_input"])
-	if question_txt == "airforce or navy"
+	if question_txt == "navy"
 	response.set_output_speech_text("You can join the Indian Military with commerce stream. The first step is to give the National Defense Academy exam.")
 	elsif question_txt == "defense"
 	response.set_output_speech_text("You can join the Indian Military with commerce stream. The first step is to give the National Defense Academy exam.")
