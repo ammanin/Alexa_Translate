@@ -54,7 +54,7 @@ on_intent("Teacher") do
     puts slots.to_s
     question_txt = (request.intent.slots["question_input"])
 	if question_txt == "navy"
-	response.set_output_speech_text("You can join the Indian airforce or Navy  with commerce stream. The first step is to give the National Defense Academy exam.")
+	response.set_output_speech_text("No, you need to have studied Physics and Mathematics in 11th and 12th grade to join the Airforce or Navy.")
 	elsif question_txt == "defense"
 	response.set_output_speech_text("You can join the Indian Military with commerce stream. The first step is to give the National Defense Academy exam.")
 	else
