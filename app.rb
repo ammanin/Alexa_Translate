@@ -53,15 +53,15 @@ on_intent("Teacher") do
 	slots = request.intent.slots
     puts slots.to_s
     question_txt = (request.intent.slots["question_input"])
-	if question_txt = "airforce or navy"
+	if question_txt == "airforce or navy"
 	response.set_output_speech_text("You can join the Indian Military with commerce stream. The first step is to give the National Defense Academy exam.")
-	elsif question_txt = "defense"
+	elsif question_txt == "defense"
 	response.set_output_speech_text("You can join the Indian Military with commerce stream. The first step is to give the National Defense Academy exam.")
 	else
 	response.set_output_speech_text("Sorry! Can you repeat that more clearly, please")
 	end
 end
-
+end
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
@@ -77,8 +77,7 @@ post '/' do
 		logger.error e.to_s
 		403
 		end
-	end 
-
+  end
 # Using this to test locally
 =begin
 get '/' do
