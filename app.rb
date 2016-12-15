@@ -49,27 +49,17 @@ class CustomHandler < AlexaSkillsRuby::Handler
 	send_answer(trans_met(trans_txt, lang_input))
   end
   
-  on_intent("Quiz") do
-=begin
-	session["counter"] ||= nil
-	if  session["last_context"] = "quiz"
-		slots = request.intent.slots
-		puts slots.to_s
-		ans = (request.intent.slots["answer_input"])
-		if session["answer"] = ans
-			response.set_output_speech_text("I'm impressed. You are smarter than you look")  
-		else
-			response.set_output_speech_text("Wrong, you really are slow")
-		end
-		session["last_context"] = "not playing"
+on_intent("Teacher") do
+	slots = request.intent.slots
+    puts slots.to_s
+    question_txt = (request.intent.slots["question_input"])
+	if question_txt = "airforce or navy"
+	response.set_output_speech_text("You can join the Indian Military with commerce stream. The first step is to give the National Defense Academy exam.")
+	elsif question_txt = "defense"
+	response.set_output_speech_text("You can join the Indian Military with commerce stream. The first step is to give the National Defense Academy exam.")
 	else
-=end
-		#Session["last_context"] = "quiz"
-		question = TranList.sample
-		response.set_output_speech_text("what does #{question.tras} mean") 
-		session["answer"] = question.transtxt
-	#end
-  end
+	response.set_output_speech_text("Sorry! Can you repeat that more clearly, please")
+	end
 end
 
 # ----------------------------------------------------------------------
@@ -90,12 +80,56 @@ post '/' do
 	end 
 
 # Using this to test locally
+=begin
 get '/' do
 	message = trans_met("where are you from", "dgfdg")
 	send_answer(message)
 	message
 end
 
+get '/incoming_sms' do
+  
+  session["last_context"] ||= nil
+  
+  sender = params[:From] || ""
+  body = params[:Body] || ""
+  
+  body = body.downcase.strip
+  
+  if session["last_context"] = "quiz"
+	ans = body
+		if session["answer"] = ans
+			("I'm impressed. You are smarter than you look")  
+		else
+			("Wrong! Really?")
+		end
+  elsif	body = "quiz" & session{["last_context"]} != "quiz"
+	question = TranList.sample.first
+	message  = "what does #{question.tras} mean" 
+	session["answer"] = question.transtxt
+   else 
+   message = "Something went wrong! Try again"
+  end
+  
+      
+  twiml = Twilio::TwiML::Response.new do |resp|
+    resp.Message message
+  end
+    
+  return twiml.text
+end
+
+	session["counter"] ||= nil
+	if  session["last_context"] = "quiz"
+		
+		
+		session["last_context"] = "not playing"
+	else
+
+		
+	#end
+  end
+=end
 # ----------------------------------------------------------------------
 #     ERRORS
 # ----------------------------------------------------------------------
