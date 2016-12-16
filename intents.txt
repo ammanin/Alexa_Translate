@@ -15,13 +15,22 @@
       ]
     },
     {
-      "intent": "Quiz",
+      "intent": "Quiz"
+    },
+    {
+      "intent": "Answer",
 	"slots": [
         {
           "name": "answer_input",
           "type": "PHRASE"
         }
       ]
+    },
+    {
+      "intent": "Previous"
+    },
+    {
+      "intent": "Options"
     },
     {
       "intent": "AMAZON.HelpIntent"

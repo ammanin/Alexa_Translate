@@ -3,8 +3,12 @@ Translate Translate {trans_txt} to {lang_input}
 Translate What is {trans_txt} in {lang_input}
 Quiz Quiz me
 Quiz Ask me something
-Quiz The answer is
-Quiz Is the answer 
+Answer The answer is {answer_input}
+Answer Is the answer {answer_input}
+Previous What have I already translated
+Previous Give me something translated before
+Options What can I do
+Options What are my options
 AMAZON.HelpIntent help me 
 AMAZON.HelpIntent how do I translate
 AMAZON.HelpIntent help

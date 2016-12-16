@@ -48,19 +48,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
     #response.set_simple_card("title", "content")
 	send_answer(trans_met(trans_txt, lang_input))
   end
-  
-on_intent("Teacher") do
-	slots = request.intent.slots
-    puts slots.to_s
-    question_txt = (request.intent.slots["question_input"])
-	if question_txt == "navy"
-	response.set_output_speech_text("No, you need to have studied Physics and Mathematics in 11th and 12th grade to join the Airforce or Navy.")
-	elsif question_txt == "defense"
-	response.set_output_speech_text("You can join the Indian Military with commerce stream. The first step is to give the National Defense Academy exam.")
-	else
-	response.set_output_speech_text("Sorry! Can you repeat that more clearly, please")
-	end
-end
+  on_intent("Options") do
+	response.set_output_speech_text("Hi #{ENV["APP_USERc"]}, other than fulfilling your translation needs, ask me to quiz you about what you’ve already translated. You need to get smarter. I know not everyone can be a bot, but you can atleast try.")  
+  end
+  on_intent("Previous") do
+  response.set_output_speech_text(revision) 
+  end
 end
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
@@ -79,13 +72,13 @@ post '/' do
 		end
   end
 # Using this to test locally
-=begin
+
 get '/' do
 	message = trans_met("where are you from", "dgfdg")
 	send_answer(message)
 	message
 end
-
+=begin
 get '/incoming_sms' do
   
   session["last_context"] ||= nil
@@ -172,4 +165,8 @@ def send_answer trans_answer
 end
 def multip int1, int2
 	int1 + int2
+end
+def revision
+	revise = TranList.sample.first
+	"#{revise.phrase} in #{revise.lang} is #{revise.tras}"
 end
