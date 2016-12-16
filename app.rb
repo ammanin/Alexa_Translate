@@ -49,7 +49,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
 	send_answer(trans_met(trans_txt, lang_input))
   end
   on_intent("Options") do
-	response.set_output_speech_text("Hi #{ENV["APP_USERc"]}, other than fulfilling your translation needs, ask me to quiz you about what you’ve already translated. You need to get smarter. I know not everyone can be a bot, but you can atleast try.")  
+	response.set_output_speech_text("Other than fulfilling your translation needs, ask me to quiz you about what you’ve already translated. You need to get smarter. I know not everyone can be a bot, but you can at least try.")  
   end
   on_intent("Previous") do
   response.set_output_speech_text(revision) 
@@ -74,7 +74,8 @@ post '/' do
 # Using this to test locally
 
 get '/' do
-	message = trans_met("where are you from", "dgfdg")
+	message = revision() 
+	#trans_met("where are you from", "dgfdg")
 	send_answer(message)
 	message
 end
